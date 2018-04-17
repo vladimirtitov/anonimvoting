@@ -28,11 +28,41 @@
             case 'user':
                 echo '<h2>Профлиь пользователя</h2>';
                 break;
-            case 'post':
-                echo '<h2>Конкретный пост</h2>';
+            case 'addgroup':
+                $tpl = 'addgroup';
+                if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                    $name = clearStr($_POST['name']);
+                    $description = clearStr($_POST['$description']);
+                    if(strlen($name) > 3){
+                        //print $mail.' '.$password;
+                        if(login($pdo, $mail, $password)){
+                            header("location: /user");
+                        }else{
+                            print 'Название группы не менее 3 символов';
+                        }
+                    }
+                    else{
+                        print 'Название группы не менее 3 символов';
+                    }
+                }
                 break;
-            case 'news':
-                echo '<h2>Страница новостей</h2>';
+            case 'addvoter':
+                $tpl = 'addvoter';
+                if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                    $name = clearStr($_POST['name']);
+                    $description = clearStr($_POST['$description']);
+                    if(strlen($name) > 3){
+                        //print $mail.' '.$password;
+                        if(login($pdo, $mail, $password)){
+                            header("location: /user");
+                        }else{
+                            print 'Название группы не менее 3 символов';
+                        }
+                    }
+                    else{
+                        print 'Название группы не менее 3 символов';
+                    }
+                }
                 break;
             default:
                 $title = "Страница по умолчанию";

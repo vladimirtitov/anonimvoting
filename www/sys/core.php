@@ -29,7 +29,7 @@ function login($pdo, $mail, $password){
     $mail = $pdo->quote($mail);
     $password = md5($password);
     //print $mail.' '.$password;
-    $sql = "SELECT id, password FROM ts_users WHERE email=$mail";
+    $sql = "SELECT id, password FROM ts_users WHERE email='$mail'";
     if(!$stmt = $pdo->query($sql)){
         return false;
     } else {
