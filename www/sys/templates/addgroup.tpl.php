@@ -2,9 +2,8 @@
 <div class="row cent">
     <div class="col-md-offset-4 col-md-4">
         <form class="cent" action="" method="post">
-            <p><input class="form-control" name="name" type="text" placeholder="Название" /></p>
-            <p><input class="form-control" name="description" type="text" placeholder="Описание" /></p><br />
-            <p><input class="btn btn-primary" name="add_group_submit" type="submit" value="Добавить" /></p><br />
+            <p><input class="form-control" name="name" type="text" placeholder="Название"/></p>
+            <p><input class="btn btn-primary" name="add_group_submit" type="submit" value="Добавить"/></p><br />
         </form>
     </div>
 </div>

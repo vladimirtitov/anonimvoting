@@ -6,7 +6,8 @@
 </head>
 <body>
 <section class="container">
-    <?php include_once(ROOT.'/sys/templates/'.$tpl.'.tpl.php'); ?>
+    <?php include_once(ROOT.'/sys/templates/'.$tpl.'.tpl.php');
+    print_r($info)?>
 </section>
 <footer>
     <p><small>&copy; 2018</small></p>
