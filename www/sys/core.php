@@ -77,11 +77,10 @@ function check($pdo, $cookie_id, $cookie_hash){
         }
     }
 }
-
-
 //Регистрация
-function register($pdo, $email, $password){
+function register($pdo, $email, $name, $password){
     $email = $pdo->quote($email);
+    $name = $pdo->quote($name);
     $password = md5($password);
     $password = $pdo->quote($password);
     //print $mail.' '.$password;
@@ -93,7 +92,7 @@ function register($pdo, $email, $password){
         print 'Учетная запись уже существует. Забыл пароль?';
     }else{
         // Добавляем учетную запись в таблицу av_users
-        $sql_insert = "INSERT INTO av_users (email, password, status) VALUES ($email, $password, 0)";
+        $sql_insert = "INSERT INTO av_users (email, name, password, status) VALUES ($email, $name,$password, 0)";
         //print $sql_insert;
 
         if($pdo->exec($sql_insert)){
@@ -115,7 +114,7 @@ function register($pdo, $email, $password){
 
 //Получение всех заявок на регистрацию
 function getRequests($pdo){
-    $sql = 'SELECT id, email FROM av_users WHERE status = 0';
+    $sql = 'SELECT id, email, name FROM av_users WHERE status = 0';
     if(!$stmt = $pdo->query($sql)){
         return array();
     } else {
@@ -129,7 +128,7 @@ function addGroup($pdo, $name){
     $stmt = $pdo->query($sql_check);
     $row = $stmt->fetch(PDO::FETCH_NUM);
     if($row[0] > 0){
-        print 'Группа с таким именем уже есть';
+
     }else{
         // Добавляем учетную запись в таблицу av_users
         $sql_insert = "INSERT INTO av_groups (name) VALUES ($name)";
@@ -137,16 +136,42 @@ function addGroup($pdo, $name){
         return $pdo->exec($sql_insert);
     }
 }
-
-//Получение групп
-function getGroups($pdo){
-    $sql = 'SELECT id, name FROM av_groups';
+//Получение пользователей
+function getUsers($pdo){
+    $sql = 'SELECT av_users.id, av_users.email, av_users.name AS username,av_groups.name AS groupname,av_users.status FROM av_users LEFT JOIN av_groups ON av_users.group_id = av_groups.id';
     if(!$stmt = $pdo->query($sql)){
         return array();
     } else {
         return $stmt->fetchAll(PDO::FETCH_UNIQUE);
     }
 }
+
+//Получение пользователя по id
+function getUser($pdo, $id){
+    $sql = 'SELECT * FROM av_users WHERE id ='.$id;
+    if(!$stmt = $pdo->query($sql)){
+        return array();
+    } else {
+        return $stmt->fetch(PDO::FETCH_UNIQUE);
+    }
+}
+
+//Обновление информации о пользователе
+function updateUser($pdo, $id, $group_id, $status){
+    $sql = 'UPDATE av_users SET status ='.$status.', group_id='.$group_id.'  WHERE id='.$id;
+    return $pdo->exec($sql);
+}
+
+//Получение групп
+function getGroups($pdo){
+    $sql = 'SELECT id, name FROM av_groups ORDER BY id';
+    if(!$stmt = $pdo->query($sql)){
+        return array();
+    } else {
+        return $stmt->fetchAll(PDO::FETCH_UNIQUE);
+    }
+}
+//
 //Получение группы по id
 function getGroup($pdo, $id){
     $sql = 'SELECT id, name FROM av_groups WHERE id='.$id;
@@ -158,23 +183,19 @@ function getGroup($pdo, $id){
 }
 //Редактирование группы
 function updateGroup($pdo, $id, $name){
-    $name = $pdo->quote($name);
-    $sql_check = "SELECT COUNT(id) FROM av_groups WHERE name=$name";
-    $stmt = $pdo->query($sql_check);
-    $row = $stmt->fetch(PDO::FETCH_NUM);
-    if($row[0] > 0){
-        print 'Группа с таким именем уже есть';
-    }else{
-        $sql = 'UPDATE av_groups SET name ='.$name.' WHERE id='.$id;
-        return $pdo->exec($sql);
-    }
-
+    $sql = 'UPDATE av_groups SET name ='.$name.' WHERE id='.$id;
+    return $pdo->exec($sql);
 }
 
 //Обновление статуса пользователя
 function updateUserStatus($pdo, $id, $status){
    $sql = 'UPDATE av_users SET status ='.$status.' WHERE id='.$id;
    return $pdo->exec($sql);
+}
+
+//Создание голосования
+function createVote($pdo, $name, $description, $startDate, $endDate, $candidates, $groupsWeight){
+
 }
 /* Route functions */
 function route($item = 1) {

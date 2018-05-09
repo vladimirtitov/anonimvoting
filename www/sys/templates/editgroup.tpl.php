@@ -2,6 +2,9 @@
 <?php
 $id = $request[3];
 $groupInfo = (getGroup($pdo, $id));
+if($groupInfo == array())
+echo 'Такой группы не существует';
+else{
 $name = $groupInfo['name'];
 ?>
 <div class="row cent">
@@ -12,3 +15,4 @@ $name = $groupInfo['name'];
         </form>
     </div>
 </div>
+<?php }?>
