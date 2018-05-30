@@ -21,7 +21,7 @@ function init(){
     $config = parse_ini_file(ROOT.'/sys/config.ini');
     //print_r($config);
     $dsn = "{$config['driver']}:host={$config['host']};dbname={$config['schema']}";
-    return new PDO($dsn, $config['user'], $config['password']);
+    return new PDO($dsn, $config['user'], $config['password'],array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 }
 
 //Авторизация

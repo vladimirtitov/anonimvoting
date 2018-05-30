@@ -1,15 +1,17 @@
 <?php
-    define(ROOT, $_SERVER['DOCUMENT_ROOT']);
+    define(ROOT, $_SERVER['DOCUMENT_ROOT'].'/anonimvoting/www');
     require(ROOT.'/sys/core.php');
     $request = explode("/", $_SERVER["REQUEST_URI"]);
-    $page = $request[1];
-    $ext = $request[2];
+    $page = $request[3];
+    $ext = $request[4];
     $pdo = init();
-    // Проверка авторизации
+//Проверка авторизации
 	$cookie_id = $_COOKIE['id'];
 	$cookie_hash = $_COOKIE['hash'];
-	$this_id = check($pdo, $cookie_id, $cookie_hash);
-    switch($page){
+print_r($cookie_id);
+print_r($cookie_hash);
+$this_id = check($pdo, $cookie_id, $cookie_hash);
+switch($page){
             case 'login':
                 $tpl = 'login';
                 $title = 'Авторизация';
@@ -172,4 +174,4 @@
                 $title = 'Страница по умолчанию';
                 $tpl = 'default';
         }
-    include_once(ROOT.'/sys/templates/index.tpl.php');
+include_once(ROOT.'/sys/templates/index.tpl.php');
