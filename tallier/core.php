@@ -42,6 +42,7 @@ function authorizeKey($data){
         );
         return $result;
     }
+    //print $data;
     $publicVoteKey = dbGetPublicVoteKey($pdo, $data["voting_id"])["public_key_vote"];
     if($publicVoteKey == ""){
         $result = json_encode(
@@ -77,14 +78,15 @@ function checkKeys($publicKey, $encodePublicKey){
 }
 // Соединение с БД
 function init(){
-    $config = parse_ini_file($_SERVER['DOCUMENT_ROOT'].'/config.ini');
+    $config = parse_ini_file(ROOT.'/config.ini');
     $dsn = "{$config['driver']}:host={$config['host']};dbname={$config['schema']}";
     return new PDO($dsn, $config['user'], $config['password']);
 }
 /* Запросы к БД*/
 function dbGetPublicVoteKey($pdo, $id_voting){
+    //print $id_voting;
     $sql = "SELECT public_key_vote FROM votings WHERE id = $id_voting";
-    print $sql;
+    //print $sql;
     if(!$stmt = $pdo->query($sql)){
         return array();
     } else {
@@ -107,7 +109,7 @@ function dbAddVoting($pdo, $name, $bulletin, $dataStart, $dataEnd, $maxVote, $pu
 function dbAddAuthorizedKey($pdo, $key, $voting_id){
     $key = $pdo->quote($key);
     $sql_insert = "INSERT INTO av_voting_data (voter_pub, voting_id) VALUES ($key, $voting_id)";
-    print $sql_insert;
+    //print $sql_insert;
     return $pdo->exec($sql_insert);
 }
 

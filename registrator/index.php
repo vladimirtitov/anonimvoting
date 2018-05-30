@@ -1,5 +1,5 @@
 <?php
-    define(ROOT, $_SERVER['DOCUMENT_ROOT'].'/anonimvoting/www');
+    define(ROOT, $_SERVER['DOCUMENT_ROOT'].'/anonimvoting/registrator');
     require(ROOT.'/sys/core.php');
     $request = explode("/", $_SERVER["REQUEST_URI"]);
     $page = $request[3];

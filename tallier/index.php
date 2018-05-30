@@ -1,7 +1,9 @@
 <?php
-require($_SERVER['DOCUMENT_ROOT'].'/core.php');
+define(ROOT, $_SERVER['DOCUMENT_ROOT'].'/anonimvoting/tallier');
+require(ROOT.'/core.php');
 $request = explode("/", $_SERVER["REQUEST_URI"]);
-$command = $request[1];
+$command = $request[3];
+//print $_SERVER['DOCUMENT_ROOT'];
 //print_r($_POST["data"]);
 $data = json_decode($_POST["data"],true);
 //print_r($data);
