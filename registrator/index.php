@@ -66,11 +66,11 @@ switch($page){
                         $title = 'Заявки';
                         $info="";
                         if(count($request)>3){
-                            $command = $request[3];
+                            $command = $request[5];
                             switch ($command)
                             {
                                 case "accept":
-                                    $id = $request[4];
+                                    $id = $request[6];
                                     if(updateUserStatus($pdo,$id, 1)){
                                         $info = 'Запрос пользователя подтвержден';
                                         header("location: $path/admin/requests");
@@ -78,7 +78,7 @@ switch($page){
                                     else $info = 'Произашла ошибка';
                                     break;
                                 case "reject":
-                                    $id = $request[4];
+                                    $id = $request[6];
                                     if(updateUserStatus($pdo,$id, 2)){
                                         $info = 'Запрос пользователя отклонен';
                                         header("location: $path/admin/requests");

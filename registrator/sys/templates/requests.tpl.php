@@ -11,8 +11,8 @@ function show_list($pdo){
         echo '<td>'.$key.'</td>';
         echo '<td>'.$value['name'].'</td>';
         echo '<td>'.$value['email'].'</td>';
-        echo '<td><a href="/admin/requests/accept/'.$key.'">Подтвердить</a></td>';
-        echo '<td><a href="/admin/requests/reject/'.$key.'">Отклонить</a></td>';
+        echo '<td><a href="/anonimvoting/registrator/admin/requests/accept/'.$key.'">Подтвердить</a></td>';
+        echo '<td><a href="/anonimvoting/registrator/admin/requests/reject/'.$key.'">Отклонить</a></td>';
         echo '</tr>';
     }
     echo '</table>';
