@@ -1,6 +1,6 @@
 <h1 class="cent">Редактирование группы</h1>
 <?php
-$id = $request[3];
+$id = $request[5];
 $groupInfo = (getGroup($pdo, $id));
 if($groupInfo == array())
 echo 'Такой группы не существует';

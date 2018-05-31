@@ -25,7 +25,7 @@ function show_list($pdo){
         if($value['groupname']=="")
             echo '<td>Не задана</td>';
         else  echo '<td>'.$value['groupname'].'</td>';
-        echo '<td><a href="/admin/edituser/'.$key.'">Редактировать</a></td>';
+        echo '<td><a href="/anonimvoting/registrator/admin/edituser/'.$key.'">Редактировать</a></td>';
         echo '</tr>';
     }
     echo '</table>';

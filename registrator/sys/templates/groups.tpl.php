@@ -10,9 +10,9 @@ function show_list($pdo){
         echo '<tr>';
         echo '<td>'.$key.'</td>';
         echo '<td>'.$value['name'].'</td>';
-        echo '<td><a href="/admin/editgroup/'.$key.'">Редактировать</a></td>';
+        echo '<td><a href="/anonimvoting/registrator/admin/editgroup/'.$key.'">Редактировать</a></td>';
         echo '</tr>';
     }
     echo '</table>';
-    echo '<p><a href="/admin/addgroup">Добавить</a></p>';
+    echo '<p><a href="/anonimvoting/registrator/admin/addgroup">Добавить</a></p>';
 }

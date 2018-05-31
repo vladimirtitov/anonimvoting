@@ -4,7 +4,7 @@ function isStatus($status, $currentStatus){
     if($status==$currentStatus) return 'selected';
         else return '';
 }
-$id = $request[3];
+$id = $request[5];
 $userInfo = getUser($pdo, $id);
 if($userInfo == array())
     echo 'Такого пользователя не существует';

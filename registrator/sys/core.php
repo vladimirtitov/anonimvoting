@@ -207,7 +207,9 @@ function getGroup($pdo, $id){
 }
 //Редактирование группы
 function updateGroup($pdo, $id, $name){
+    $name = $pdo->quote($name);
     $sql = 'UPDATE av_groups SET name ='.$name.' WHERE id='.$id;
+    print $sql;
     return $pdo->exec($sql);
 }
 

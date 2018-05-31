@@ -113,7 +113,7 @@ switch($page){
                     case 'editgroup':
                         $tpl = 'editgroup';
                         $title = 'Редактирование группы';
-                        $id = $request[3];
+                        $id = $request[5];
                         if($_SERVER['REQUEST_METHOD'] == 'POST'){
                             $name = clearStr($_POST['name']);
                             if(strlen($name) > 3){
@@ -135,7 +135,7 @@ switch($page){
                     case 'edituser':
                         $tpl = 'edituser';
                         $title = 'Редактирование пользователя';
-                        $id = $request[3];
+                        $id = $request[5];
                         if($_SERVER['REQUEST_METHOD'] == 'POST'){
                             //TODO добавиь проверку
                             $group_id = clearInt($_POST['selectGroups']);
