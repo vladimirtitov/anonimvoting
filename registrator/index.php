@@ -164,7 +164,6 @@ switch($page){
                         $tpl = 'addvote';
                         $title = 'Создание голосования';
                         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-                            print_r($_POST);
                             if(createVoting($pdo, $_POST['name'],$_POST['description'],$_POST['startDate'],$_POST['endDate'],$_POST['candidates'], $_POST['groupsWeight'])){
                                 header("location: $path/admin/votes");
                             }

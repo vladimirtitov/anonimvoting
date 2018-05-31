@@ -219,7 +219,40 @@ function updateUserStatus($pdo, $id, $status){
 
 //Создание голосования
 function createVoting($pdo, $name, $description, $dateStart, $dateEnd, $candidates, $groupsWeight){
-
+    $name = $pdo->quote($name);
+    $description = $pdo->quote($description);
+    $dateStart = $pdo->quote($dateStart);
+    $dateEnd = $pdo->quote($dateEnd);
+    $bulletin = array();
+    foreach ($candidates as $key => $value)
+    {
+        $candidate = array();
+        $candidate['name']= $value;
+        $candidate['vote'] = 0;
+        $bulletin[]=$candidate;
+    }
+    $bulletin = json_encode($bulletin);
+    $bulletin = $pdo->quote($bulletin);
+    $sql = "INSERT INTO av_votes (name, description, date_start, date_end, bulletin) VALUES ($name, $description, $dateStart, $dateEnd, $bulletin)";
+    $pdo->exec($sql);
+    $vote_id = $pdo->lastInsertId();
+    $config = array(
+        "digest_alg" => "sha512",
+        "private_key_bits" => 512,
+        "private_key_type" => OPENSSL_KEYTYPE_RSA,
+    );
+    foreach ($groupsWeight as $key => $value){
+        if($value>0){
+            $keyCrypto = openssl_pkey_new($config);
+            openssl_pkey_export($keyCrypto, $private_key);
+            $public_key = openssl_pkey_get_details($keyCrypto);
+            $public_key = $public_key["key"];
+            $public_key = $pdo->quote($public_key);
+            $private_key = $pdo->quote($private_key);
+            $sql = "INSERT INTO av_relations_vote_group (vote_id, group_id, public_key, private_key, max_vote) VALUES ($vote_id, $key, $public_key, $private_key, $value)";
+            $pdo->exec($sql);
+        }
+    }
 }
 /* Route functions */
 function route($item = 1) {

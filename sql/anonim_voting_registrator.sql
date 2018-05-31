@@ -2,10 +2,10 @@
 -- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: May 30, 2018 at 05:51 PM
--- Server version: 5.6.34-log
--- PHP Version: 7.2.1
+-- Хост: localhost:3306
+-- Время создания: Май 31 2018 г., 22:16
+-- Версия сервера: 5.6.34-log
+-- Версия PHP: 7.2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `anonim_voting_registrator`
+-- База данных: `anonim_voting_registrator`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `av_groups`
+-- Структура таблицы `av_groups`
 --
 
 CREATE TABLE `av_groups` (
@@ -34,7 +34,7 @@ CREATE TABLE `av_groups` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `av_groups`
+-- Дамп данных таблицы `av_groups`
 --
 
 INSERT INTO `av_groups` (`id`, `name`) VALUES
@@ -50,7 +50,7 @@ INSERT INTO `av_groups` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `av_relations_vote_group`
+-- Структура таблицы `av_relations_vote_group`
 --
 
 CREATE TABLE `av_relations_vote_group` (
@@ -58,13 +58,15 @@ CREATE TABLE `av_relations_vote_group` (
   `vote_id` int(10) UNSIGNED NOT NULL,
   `group_id` int(10) UNSIGNED NOT NULL,
   `public_key` text NOT NULL,
-  `private_key` text NOT NULL
+  `private_key` text NOT NULL,
+  `max_vote` int(10) UNSIGNED NOT NULL DEFAULT '1',
+  `registrator_id` int(10) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `av_users`
+-- Структура таблицы `av_users`
 --
 
 CREATE TABLE `av_users` (
@@ -74,86 +76,89 @@ CREATE TABLE `av_users` (
   `password` varchar(255) NOT NULL,
   `hash` varchar(255) DEFAULT NULL,
   `status` smallint(6) NOT NULL,
-  `group_id` int(11) NOT NULL DEFAULT '0'
+  `group_id` int(11) NOT NULL DEFAULT '0',
+  `is_admin` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `av_users`
+-- Дамп данных таблицы `av_users`
 --
 
-INSERT INTO `av_users` (`id`, `email`, `name`, `password`, `hash`, `status`, `group_id`) VALUES
-(2, 'anna.titova94@mail.ru', 'Анна Титова', '130da2141f710c9d70c7e572c3aa8426', NULL, 1, 7),
-(3, 'vovchik.titov@mail.ru', 'Владимир Титов', '130da2141f710c9d70c7e572c3aa8426', '5d62a615ae9162a1fd76ce9bb4f7f842', 1, 2),
-(4, 'titan797@yandex.ru', 'Джефферсон Фарфан', 'f584dfcef58674f69abdf2e7d13489ce', NULL, 1, 1),
-(5, 'miranchyk@fclm.ru', 'Алексей Миранчук', '56f3c92f8f6833e8f52b0e322a5e1559', NULL, 1, 1);
+INSERT INTO `av_users` (`id`, `email`, `name`, `password`, `hash`, `status`, `group_id`, `is_admin`) VALUES
+(2, 'anna.titova94@mail.ru', 'Анна Титова', '130da2141f710c9d70c7e572c3aa8426', NULL, 1, 7, 0),
+(3, 'vovchik.titov@mail.ru', 'Владимир Титов', '130da2141f710c9d70c7e572c3aa8426', 'b568db8c46f831de3d01d8df6c0d9ae3', 1, 2, 1),
+(4, 'titan797@yandex.ru', 'Джефферсон Фарфан', 'f584dfcef58674f69abdf2e7d13489ce', NULL, 1, 1, 0),
+(5, 'miranchyk@fclm.ru', 'Алексей Миранчук', '56f3c92f8f6833e8f52b0e322a5e1559', NULL, 1, 1, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `av_votes`
+-- Структура таблицы `av_votes`
 --
 
 CREATE TABLE `av_votes` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `bulletin` text NOT NULL
+  `bulletin` text NOT NULL,
+  `date_start` datetime NOT NULL,
+  `date_end` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Indexes for dumped tables
+-- Индексы сохранённых таблиц
 --
 
 --
--- Indexes for table `av_groups`
+-- Индексы таблицы `av_groups`
 --
 ALTER TABLE `av_groups`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
 
 --
--- Indexes for table `av_relations_vote_group`
+-- Индексы таблицы `av_relations_vote_group`
 --
 ALTER TABLE `av_relations_vote_group`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `av_users`
+-- Индексы таблицы `av_users`
 --
 ALTER TABLE `av_users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- Indexes for table `av_votes`
+-- Индексы таблицы `av_votes`
 --
 ALTER TABLE `av_votes`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT для сохранённых таблиц
 --
 
 --
--- AUTO_INCREMENT for table `av_groups`
+-- AUTO_INCREMENT для таблицы `av_groups`
 --
 ALTER TABLE `av_groups`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
--- AUTO_INCREMENT for table `av_relations_vote_group`
+-- AUTO_INCREMENT для таблицы `av_relations_vote_group`
 --
 ALTER TABLE `av_relations_vote_group`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `av_users`
+-- AUTO_INCREMENT для таблицы `av_users`
 --
 ALTER TABLE `av_users`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
--- AUTO_INCREMENT for table `av_votes`
+-- AUTO_INCREMENT для таблицы `av_votes`
 --
 ALTER TABLE `av_votes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;COMMIT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
