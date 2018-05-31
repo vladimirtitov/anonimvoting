@@ -57,7 +57,7 @@ switch($page){
                 echo '<h2>Профиль пользователя</h2>';
                 break;
             case 'admin':
-                if($isAdmin==0) header("location: $path/accounter");
+                if($isAdmin==0) header("location: $path/account");
                 $tpl = 'adminpanel';
                 $title = 'Панель администратора';
                 switch ($ext){
