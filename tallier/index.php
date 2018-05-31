@@ -15,10 +15,13 @@ switch($command){
         $result = authorizeKey($data);
         break;
     case "sendBulletin":
+        $result = sendBulletin($data);
         break;
     case "sendSecretKey":
+        $result = sendSecretKey($data);
         break;
-    case "getVotingResult":
+    case "getVotingData":
+        $result = getVotingData($data);
         break;
     default:
         $result = json_encode(

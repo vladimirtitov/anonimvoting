@@ -1,16 +1,16 @@
 <?php
     define(ROOT, $_SERVER['DOCUMENT_ROOT'].'/anonimvoting/registrator');
     require(ROOT.'/sys/core.php');
+    $path = "/anonimvoting/registrator";
     $request = explode("/", $_SERVER["REQUEST_URI"]);
     $page = $request[3];
     $ext = $request[4];
     $pdo = init();
-//Проверка авторизации
+    //Проверка авторизации
 	$cookie_id = $_COOKIE['id'];
 	$cookie_hash = $_COOKIE['hash'];
-print_r($cookie_id);
-print_r($cookie_hash);
-$this_id = check($pdo, $cookie_id, $cookie_hash);
+    $this_id = check($pdo, $cookie_id, $cookie_hash);
+    $isAdmin = isAdmin($pdo, $cookie_id, $cookie_hash);
 switch($page){
             case 'login':
                 $tpl = 'login';
@@ -21,7 +21,7 @@ switch($page){
                     if(strlen($mail) > 3 && strlen($password) > 2){
                         //print $mail.' '.$password;
                         if(login($pdo, $mail, $password)){
-                            header("location: /user");
+                            header("location: $path/user");
                         }else{
                             print 'Неверный логин или пароль';
                         }
@@ -44,7 +44,7 @@ switch($page){
                             print 'Пароли не совпадают';
                         }else{
                             if(register($pdo, $mail, $name,$password)){
-                                header('location: /login');
+                                header("location: $path/login");
                             }else{
                                 print 'Регистрация не получилась :(';
                             }
@@ -53,10 +53,11 @@ switch($page){
                 }
                 break;
             case 'user':
+                if($this_id == 0)  header("location: $path/login");
                 echo '<h2>Профиль пользователя</h2>';
                 break;
             case 'admin':
-                // TODO: Проверить является ли пользователь админом
+                if($isAdmin==0) header("location: $path/user");
                 $tpl = 'adminpanel';
                 $title = 'Панель администратора';
                 switch ($ext){
@@ -72,7 +73,7 @@ switch($page){
                                     $id = $request[4];
                                     if(updateUserStatus($pdo,$id, 1)){
                                         $info = 'Запрос пользователя подтвержден';
-                                        header("location: /admin/requests");
+                                        header("location: $path/admin/requests");
                                     }
                                     else $info = 'Произашла ошибка';
                                     break;
@@ -80,7 +81,7 @@ switch($page){
                                     $id = $request[4];
                                     if(updateUserStatus($pdo,$id, 2)){
                                         $info = 'Запрос пользователя отклонен';
-                                        header("location: /admin/requests");
+                                        header("location: $path/admin/requests");
                                     }
                                     else $info = 'Произашла ошибка';
                                     break;
@@ -99,7 +100,7 @@ switch($page){
                             $name = clearStr($_POST['name']);
                             if(strlen($name) > 3){
                                 if(addGroup($pdo, $name)){
-                                    header("location: /admin/groups");
+                                    header("location: $path/admin/groups");
                                 }else{
                                     print 'Группа с таким именем уже есть';
                                 }
@@ -117,7 +118,7 @@ switch($page){
                             $name = clearStr($_POST['name']);
                             if(strlen($name) > 3){
                                 if(updateGroup($pdo, $id, $name)){
-                                    header("location: /admin/groups");
+                                    header("location: $path/admin/groups");
                                 }else{
                                     print 'Изменений нет';
                                 }
@@ -140,7 +141,7 @@ switch($page){
                             $group_id = clearInt($_POST['selectGroups']);
                             $status = clearInt($_POST['selectStatus']);
                             if(updateUser($pdo, $id, $group_id,$status)){
-                                header("location: /admin/users");
+                                header("location: $path/admin/users");
                             }else{
                                 print 'Изменений нет';
                             }
@@ -163,8 +164,9 @@ switch($page){
                         $tpl = 'addvote';
                         $title = 'Создание голосования';
                         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-                            if(createVote($pdo, $name)){
-                                header("location: /admin/votes");
+                            print_r($_POST);
+                            if(createVoting($pdo, $_POST['name'],$_POST['description'],$_POST['startDate'],$_POST['endDate'],$_POST['candidates'], $_POST['groupsWeight'])){
+                                header("location: $path/admin/votes");
                             }
                         }
                         break;
