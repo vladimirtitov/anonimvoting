@@ -21,7 +21,7 @@ switch($page){
                     if(strlen($mail) > 3 && strlen($password) > 2){
                         //print $mail.' '.$password;
                         if(login($pdo, $mail, $password)){
-                            header("location: $path/user");
+                            header("location: $path/account");
                         }else{
                             print 'Неверный логин или пароль';
                         }
@@ -52,12 +52,12 @@ switch($page){
                     }
                 }
                 break;
-            case 'user':
+            case 'account':
                 if($this_id == 0)  header("location: $path/login");
                 echo '<h2>Профиль пользователя</h2>';
                 break;
             case 'admin':
-                if($isAdmin==0) header("location: $path/user");
+                if($isAdmin==0) header("location: $path/accounter");
                 $tpl = 'adminpanel';
                 $title = 'Панель администратора';
                 switch ($ext){
