@@ -135,6 +135,44 @@ function register($pdo, $email, $name, $password){
         }
     }
 }
+//Регистрация подголосований
+function registerSubVotes($pdo, $id){
+    $answer = TRUE;
+    $url = 'http://localhost:8888/anonimvoting/tallier/votingRegistration';
+    $votingInfo = getVotingInfo($pdo, $id);
+    $subVotes = getSubVotes($pdo, $id);
+    foreach ($subVotes as $key => $value) {
+        $dataJSON = array();
+        $dataJSON['name'] = $votingInfo['name'];
+        $dataJSON['bulletin'] = $votingInfo['bulletin'];
+        $dataJSON['max_vote'] = $value['max_vote'];
+        $dataJSON['public_key_vote'] = $value['public_key'];
+        $dataJSON['date_start'] = $votingInfo['date_start'];
+        $dataJSON['date_end'] = $votingInfo['date_end'];
+        $data = array('data' => json_encode($dataJSON));
+        $options = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'POST',
+                'content' => http_build_query($data)
+            )
+        );
+        $context  = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        if ($result === FALSE){$answer = FALSE;}
+        else {
+            $result = json_decode($result, true);
+            if($result['error']==0){
+                updateRegistratorIdSubVoting($pdo, $key, $result['id_voting']);
+            }
+            else{
+                $answer = FALSE;
+            }
+        }
+    }
+    return $answer;
+}
+
 
 //Получение всех заявок на регистрацию
 function getRequests($pdo){
@@ -169,7 +207,15 @@ function getUsers($pdo){
         return $stmt->fetchAll(PDO::FETCH_UNIQUE);
     }
 }
-
+//Получение пользователей группы
+function getUsersOfGroup($pdo, $group_id){
+    $sql = 'SELECT * FROM av_users WHERE group_id='.$group_id;
+    if(!$stmt = $pdo->query($sql)){
+        return array();
+    } else {
+        return $stmt->fetchAll(PDO::FETCH_UNIQUE);
+    }
+}
 //Получение пользователя по id
 function getUser($pdo, $id){
     $sql = 'SELECT * FROM av_users WHERE id ='.$id;
@@ -179,13 +225,71 @@ function getUser($pdo, $id){
         return $stmt->fetch(PDO::FETCH_UNIQUE);
     }
 }
-
+//Обновление информации о пользователе
+function updateRegistratorIdSubVoting($pdo, $id, $registrator_id){
+    $sql = "UPDATE av_relations_vote_group SET registrator_id =$registrator_id  WHERE id=$id";
+    return $pdo->exec($sql);
+}
 //Обновление информации о пользователе
 function updateUser($pdo, $id, $group_id, $status){
     $sql = 'UPDATE av_users SET status ='.$status.', group_id='.$group_id.'  WHERE id='.$id;
     return $pdo->exec($sql);
 }
+//Получение голосований
+function getVotes($pdo){
+    $sql = 'SELECT * FROM av_votes ORDER BY id';
+    if(!$stmt = $pdo->query($sql)){
+        return array();
+    } else {
+        return $stmt->fetchAll(PDO::FETCH_UNIQUE);
+    }
+}
+//Получение голосований для пользователя
+function getVotesForUser($pdo, $user_id){
+    $sql = 'SELECT * FROM av_votes WHERE av_votes.id IN (SELECT av_relations_vote_group.vote_id FROM av_relations_vote_group WHERE av_relations_vote_group.id IN (SELECT subvoting_id FROM av_users, av_relations_user_subvoting WHERE av_users.id = av_relations_user_subvoting.user_id AND av_users.id = '.$user_id.'))';
+    if(!$stmt = $pdo->query($sql)){
+        return array();
+    } else {
+        return $stmt->fetchAll(PDO::FETCH_UNIQUE);
+    }
+}
+//Получение списка легитимных избирателей голосования
+function getAuthorizedUsers($pdo, $voting_id){
+    $sql = 'SELECT * FROM av_users WHERE id IN (SELECT av_relations_user_subvoting.user_id FROM av_relations_user_subvoting WHERE av_relations_user_subvoting.subvoting_id IN (SELECT id FROM av_relations_vote_group WHERE av_relations_vote_group.vote_id ='.$voting_id.'))';
+    if(!$stmt = $pdo->query($sql)){
+        return array();
+    } else {
+        return $stmt->fetchAll(PDO::FETCH_UNIQUE);
+    }
+}
+//Проверка регистрации пользователя
+function isRegisteredInVoting($pdo, $voting_id, $user_id){
+    $sql = 'SELECT is_registered FROM av_relations_user_subvoting WHERE av_relations_user_subvoting.subvoting_id IN (SELECT av_relations_vote_group.id FROM av_relations_vote_group WHERE av_relations_vote_group.vote_id ='.$voting_id.') AND av_relations_user_subvoting.user_id ='.$user_id;
+    if(!$stmt = $pdo->query($sql)){
+        return array();
+    } else {
+        return $stmt->fetch(PDO::FETCH_UNIQUE);
+    }
+}
+//Получение голосования
+function getVotingInfo($pdo, $id){
+    $sql = "SELECT * FROM av_votes WHERE id = $id";
+    if(!$stmt = $pdo->query($sql)){
+        return array();
+    } else {
+        return $stmt->fetch(PDO::FETCH_UNIQUE);
+    }
+}
 
+//Получение голосования
+function getSubVotes($pdo, $id){
+    $sql = 'SELECT * FROM av_relations_vote_group,av_groups WHERE vote_id ='.$id.' AND av_relations_vote_group.group_id = av_groups.id';
+    if(!$stmt = $pdo->query($sql)){
+        return array();
+    } else {
+        return $stmt->fetchAll(PDO::FETCH_UNIQUE);
+    }
+}
 //Получение групп
 function getGroups($pdo){
     $sql = 'SELECT id, name FROM av_groups ORDER BY id';
@@ -253,8 +357,17 @@ function createVoting($pdo, $name, $description, $dateStart, $dateEnd, $candidat
             $private_key = $pdo->quote($private_key);
             $sql = "INSERT INTO av_relations_vote_group (vote_id, group_id, public_key, private_key, max_vote) VALUES ($vote_id, $key, $public_key, $private_key, $value)";
             $pdo->exec($sql);
+            $subvote_id = $pdo->lastInsertId();
+            $users = getUsersOfGroup($pdo, $key);
+            $sql = "INSERT INTO av_relations_user_subvoting (user_id, subvoting_id) VALUES ";
+            foreach ($users as $keyUsers => $valueUsers){
+                $sql = $sql."($keyUsers, $subvote_id),";
+            }
+            $sql = substr($sql,0,-1);
+            $pdo->exec($sql);
         }
     }
+    return true;
 }
 /* Route functions */
 function route($item = 1) {

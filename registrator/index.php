@@ -54,7 +54,13 @@ switch($page){
                 break;
             case 'account':
                 if($this_id == 0)  header("location: $path/login");
-                echo '<h2>Профиль пользователя</h2>';
+                $tpl = 'account';
+                $title = 'Личный кабинет';
+                break;
+            case 'voting':
+                if($this_id == 0)  header("location: $path/login");
+                $tpl = 'votinguser';
+                $title = 'Голосование';
                 break;
             case 'admin':
                 if($isAdmin==0) header("location: $path/account");
@@ -150,15 +156,16 @@ switch($page){
                     case 'votes':
                         $tpl = 'votes';
                         $title = 'Голосования';
-                        $subvotes = $request[3];
-                        switch ($subvotes){
-                            case 'current':
-                                break;
-                            case 'future':
-                                break;
-                            case 'past':
-                                break;
-                        }
+                        break;
+                    case 'voting':
+                        $tpl = 'voting';
+                        $title = 'Голосованиe';
+                        $id = $request[5];
+                        break;
+                    case 'registerSubVotes':
+                        $id = $request[5];
+                        registerSubVotes($pdo,$id);
+                        header("location: $path/admin/voting/$id");
                         break;
                     case 'addvote':
                         $tpl = 'addvote';
