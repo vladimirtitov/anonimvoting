@@ -1,24 +1,24 @@
-<h1 class="cent">Голосование</h1>
+<h1 class="caption-section">Голосование</h1>
 <?php
 $id = $request[5];
 $votingInfo = getVotingInfo($pdo, $id);
 if($votingInfo == array())
-    echo 'Голосование не найденот';
+    echo '<p>Голосование не найдено</p>';
 else{
     $subVotes = getSubVotes($pdo, $id);
-    echo 'ID: '.$votingInfo['id'].'<br/>';
-    echo 'Название: '.$votingInfo['name'].'<br/>';
-    echo 'Описание: '.$votingInfo['description'].'<br/>';
-    echo 'Дата начала: '.$votingInfo['date_start'].'<br/>';
-    echo 'Дата окончания: '.$votingInfo['date_end'].'<br/>';
+    echo '<p>ID: '.$votingInfo['id'].'</p>';
+    echo '<p>Название: '.$votingInfo['name'].'</p>';
+    echo '<p>Описание: '.$votingInfo['description'].'</p>';
+    echo '<p>Дата начала: '.$votingInfo['date_start'].'</p>';
+    echo '<p>Дата окончания: '.$votingInfo['date_end'].'</p>';
     echo '<p><a href="/anonimvoting/registrator/admin/registerSubVotes/'.$id.'">Зарегистрировать подголосования</a></p>';
-    echo '<h3>Варианты голосования</h3>';
+    echo '<br/><h3 class="caption-section">Варианты голосования</h3>';
     $candidates = json_decode($votingInfo['bulletin'],true);
     foreach ($candidates as $key => $value){
         echo ($key+1).'. '.$value['name'].'<br/>';
     }
     echo '<h3>Подголосования</h3> ';
-    echo '<table border="1" cellpadding="2" cellspacing="0">';
+    echo '<table table class="demo-table">';
     echo '<tr><th>ID</th><th>Название группы</th><th>ID Группы</th><th>Максимальное количество голосов</th><th>ID Счетчика</th><th>Действия</th></tr>';
     foreach ($subVotes as $key => $value) {
         echo '<tr>';

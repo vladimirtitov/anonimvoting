@@ -1,10 +1,11 @@
-<h1 class="cent">Пройдите авторизацию</h1>
-<div class="row cent">
-    <div class="col-md-offset-4 col-md-4">
-        <form class="cent" action="" method="post">
-            <p><input class="form-control" name="mail" type="text" placeholder="e-mail" /></p>
-            <p><input class="form-control" name="password" type="password" placeholder="Пароль" /></p><br />
-            <p><input class="btn btn-primary" name="login_submit" type="submit" value="Представиться" /></p><br />
+<div class="login-page">
+    <div class="form">
+    <h3>Вход в личный кабинет</h3><br/>
+        <form class="login-form" action="" method="post">
+            <input  name="mail" type="text" placeholder="e-mail" />
+            <input  name="password" type="password" placeholder="Пароль" />
+            <button name="login_submit" type="submit">Войти</button>
+            <p class="message"><a href="./register">Зарегистрироваться</a></p>
         </form>
     </div>
 </div>

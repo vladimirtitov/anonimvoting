@@ -1,0 +1,224 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:400,700italic);
+* { padding: 0; margin: 0; }
+body { background: #ffffff; font-family: 'Lato', sans-serif; text-transform: uppercase; letter-spacing: 1px;}
+
+header {
+    text-align: justify;
+    height: 3em;
+    padding: 2em 5%;
+    background: #2c3e50;
+    color: #fff;
+}
+footer {
+    text-align: justify;
+    height: 1em;
+    padding: 0.8em 5%;
+    background: #2c3e50;
+    color: #fff;
+}
+header::after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+}
+
+header > div,
+header > div::before,
+header nav,
+header > div h1 {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+}
+
+header > div {
+    height: 100%;
+}
+
+header > div::before {
+    content: '';
+    height: 100%;
+}
+
+header > div h1 {
+    font-size: 3em;
+    font-style: italic;
+}
+
+header nav a {
+    padding: 0 0.6em;
+    white-space: nowrap;
+    color: #ffffff;
+    text-decoration:none;
+}
+
+header nav a:last-child {
+    padding-right: 0;
+}
+
+@media screen and (max-width: 720px){
+
+    header {
+        height: auto;
+    }
+
+    header > div,
+    header > div h1,
+    header nav {
+        height: auto;
+        width: auto;
+        display: block;
+        text-align: center;
+    }
+
+}
+.login-page {
+    width: 360px;
+    padding: 8% 0 0;
+    margin: auto;
+}
+.form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.form button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #2c3e50;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+    background: #2c3e50;
+}
+.form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+}
+.form .message a {
+    color: #2c3e50;
+    text-decoration: none;
+}
+.form h3 {
+    color: #2c3e50;
+    text-decoration: none;
+}
+.form .register-form {
+    display: none;
+}
+.container {
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+}
+.container:before, .container:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+.container .info {
+    margin: 50px auto;
+    text-align: center;
+}
+.container .info h1 {
+    margin: 0 0 15px;
+    padding: 0;
+    font-size: 36px;
+    font-weight: 300;
+    color: #1a1a1a;
+}
+.container .info span {
+    color: #4d4d4d;
+    font-size: 12px;
+}
+.container .info span a {
+    color: #000000;
+    text-decoration: none;
+}
+.container .info span .fa {
+    color: #EF3B3A;
+}
+/* Table */
+.demo-table {
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 0 auto;
+}
+.demo-table th,
+.demo-table td {
+    border: 2px solid #e1edff;
+    padding: 7px 17px;
+}
+.demo-table .title {
+    caption-side: bottom;
+    margin-top: 12px;
+}
+
+/* Table Header */
+.demo-table thead th {
+    background-color: #508abb;
+    color: #FFFFFF;
+    border-color: #6ea1cc !important;
+    text-transform: uppercase;
+}
+
+/* Table Body */
+.demo-table tbody td {
+    color: #353535;
+}
+.demo-table tbody td:first-child,
+.demo-table tbody td:last-child,
+.demo-table tbody td:nth-child(4) {
+    text-align: right;
+}
+/* Table Footer */
+.demo-table tfoot th {
+    background-color: #e5f5ff;
+}
+.demo-table tfoot th:first-child {
+    text-align: left;
+}
+.caption-section
+{
+    text-align: center;
+    color: #2c3e50;
+}
+.caption-section
+{
+    text-align: center;
+    color: #2c3e50;
+}
+p
+{
+    color: #2c3e50;
+    text-align: center;
+}
+footer p
+{
+    color: #ffffff;
+}

@@ -4,7 +4,7 @@ show_list($pdo);
 function show_list($pdo){
     $res = getUsers($pdo);
     echo '<h2>Пользователи</h2>';
-    echo '<table border="1" cellpadding="2" cellspacing="0">';
+    echo '<table class="demo-table">';
     echo '<tr><th>ID</th><th>Имя Фамилия</th><th>E-mail</th><th>Статус учетной записи</th><th>Группа</th><th>Действия</th></tr>';
     foreach ($res as $key => $value) {
         echo '<tr>';
@@ -28,5 +28,5 @@ function show_list($pdo){
         echo '<td><a href="/anonimvoting/registrator/admin/edituser/'.$key.'">Редактировать</a></td>';
         echo '</tr>';
     }
-    echo '</table>';
+    echo '</table><br/>';
 }

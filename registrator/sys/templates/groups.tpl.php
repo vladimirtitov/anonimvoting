@@ -4,7 +4,7 @@ show_list($pdo);
 function show_list($pdo){
     $res = getGroups($pdo);
     echo '<h2>Группы</h2>';
-    echo '<table border="1" cellpadding="2" cellspacing="0">';
+    echo '<table class="demo-table">';
     echo '<tr><th>ID</th><th>Название</th><th>Редактировать</th></tr>';
     foreach ($res as $key => $value) {
         echo '<tr>';

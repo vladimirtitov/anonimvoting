@@ -1,32 +1,32 @@
-<h1 class="cent">Голосование</h1>
+<br/><h1 class="caption-section">Голосование</h1>
 <?php
 $id = $request[4];
 $votingInfo = getVotingInfo($pdo, $id);
 if($votingInfo == array())
-    echo 'Голосование не найдено';
+    echo '<p>Голосование не найдено</p>';
 else{
     $subVotes = getSubVotes($pdo, $id);
-    echo 'ID: '.$votingInfo['id'].'<br/>';
-    echo 'Название: '.$votingInfo['name'].'<br/>';
-    echo 'Описание: '.$votingInfo['description'].'<br/>';
-    echo 'Дата начала: '.$votingInfo['date_start'].'<br/>';
-    echo 'Дата окончания: '.$votingInfo['date_end'].'<br/>';
+    echo '<p>ID: '.$votingInfo['id'].'</p>';
+    echo '<p>Название: '.$votingInfo['name'].'</p>';
+    echo '<p>Описание: '.$votingInfo['description'].'</p>';
+    echo '<p>Дата начала: '.$votingInfo['date_start'].'</p>';
+    echo '<p>Дата окончания: '.$votingInfo['date_end'].'</p>';
     $dateStart = $votingInfo["date_start"];
     $dateEnd = $votingInfo["date_end"];
     if(strtotime($dateStart)>strtotime(date("Y-m-d H:i:s"))){
-        echo 'Статус: Идет авторизация пользователей <a href="/anonimvoting/registrator/votingAuthorization/'.$id.'">Авторизоваться в голосовании</a><br/>';
+        echo '<p>Статус: Идет авторизация пользователей <a href="/anonimvoting/registrator/votingAuthorization/'.$id.'">Авторизоваться в голосовании</a></p>';
     }elseif (strtotime($dateEnd)>strtotime(date("Y-m-d H:i:s"))){
-        echo 'Статус: Идет голосование <a href="/anonimvoting/registrator/votingAuthorization/vote/'.$id.'"<br/>';
+        echo '<p>Статус: Идет голосование <a href="/anonimvoting/registrator/votingAuthorization/vote/'.$id.'"</p>';
     }else{
-        echo 'Статус: голосование завершено <a href="/anonimvoting/registrator/votingAuthorization/results/'.$id.'">Посмотреть результаты</a><br/>';
+        echo '<p>Статус: голосование завершено <a href="/anonimvoting/registrator/votingAuthorization/results/'.$id.'">Посмотреть результаты</a></p>';
     }
-    echo '<h3>Варианты голосования</h3>';
+    echo '<br/><h3 class="caption-section">Варианты голосования</h3>';
     $candidates = json_decode($votingInfo['bulletin'],true);
     foreach ($candidates as $key => $value){
-        echo ($key+1).'. '.$value['name'].'<br/>';
+        echo '<p>'.($key+1).'. '.$value['name'].'</p>';
     }
-    echo '<h3>Подголосования</h3> ';
-    echo '<table border="1" cellpadding="2" cellspacing="0">';
+    echo '<br/><h3 class="caption-section">Подголосования</h3> ';
+    echo '<table table class="demo-table">';
     echo '<tr><th>ID</th><th>Название группы</th><th>ID Группы</th><th>Максимальное количество голосов</th><th>ID Счетчика</th><th>Действия</th></tr>';
     foreach ($subVotes as $key => $value) {
         echo '<tr>';
@@ -46,8 +46,8 @@ else{
     }
     echo '</table>';
     $res = getAuthorizedUsers($pdo, $id);
-    echo '<h3>Допущенные участники</h3>';
-    echo '<table border="1" cellpadding="2" cellspacing="0">';
+    echo '<br/><h3 class="caption-section">Допущенные участники</h3>';
+    echo '<table table class="demo-table">';
     echo '<tr><th>ID</th><th>Имя</th><th>E-mail</th><th>Группа</th><th>Зарегистрирован в качестве участника</th></tr>';
     foreach ($res as $key => $value) {
         echo '<tr>';
@@ -59,6 +59,6 @@ else{
             echo '<td>Нет</td>';
         else echo '<td>Да</td>';
     }
-    echo '</table>';
+    echo '</table> <br/>';
 }
 ?>

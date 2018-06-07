@@ -1,13 +1,12 @@
 <?php
 $userData = getUser($pdo, $this_id);
-echo '<h2>Личный кабинет</h2>';
-echo 'Вы вошли как: '.$userData['name'].'<br/>';
-echo 'Ваш e-mail: '.$userData['email'].'<br/>';
-echo 'Ваша группа: '.getGroup($pdo,$userData['group_id'])['name'].'<br/>';
-echo '<a href="/anonimvoting/registrator/logout">Выйти</a>';
+echo '<br/><h2 class="caption-section">Личный кабинет</h2>';
+echo '<p>Вы вошли как: '.$userData['name'].'</p>';
+echo '<p>Ваш e-mail: '.$userData['email'].'</p>';
+echo '<p>Ваша группа: '.getGroup($pdo,$userData['group_id'])['name'].'</p>';
 $res = getVotesForUser($pdo, $this_id);
-echo '<h3>Голосования</h3>';
-echo '<table border="1" cellpadding="2" cellspacing="0">';
+echo '<br/><h3 class="caption-section">Голосования</h3>';
+echo '<table  class="demo-table">';
 echo '<tr><th>ID</th><th>Название</th><th>Описание</th><th>Дата начала</th><th>Дата окончания</th><th>Действия</th></tr>';
 foreach ($res as $key => $value) {
     echo '<tr>';
@@ -19,5 +18,5 @@ foreach ($res as $key => $value) {
     echo '<td><a href="/anonimvoting/registrator/voting/'.$key.'">Подробнее</a></td>';
     echo '</tr>';
 }
-echo '</table>';
+echo '</table><br/>';
 ?>

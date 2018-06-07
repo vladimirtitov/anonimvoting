@@ -4,7 +4,7 @@ show_list($pdo);
 function show_list($pdo){
     $res = getRequests($pdo);
     echo '<h2>Заявки</h2>';
-    echo '<table border="1" cellpadding="2" cellspacing="0">';
+    echo '<table table class="demo-table">';
     echo '<tr><th>ID</th><th>Имя Фамилия</th><th>Email</th><th>Подтвердить</th><th>Отклонить</th></tr>';
     foreach ($res as $key => $value) {
         echo '<tr>';

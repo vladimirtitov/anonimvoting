@@ -23,7 +23,17 @@ function init(){
     $dsn = "{$config['driver']}:host={$config['host']};dbname={$config['schema']}";
     return new PDO($dsn, $config['user'], $config['password'],array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 }
-
+function logout($pdo, $id){
+   $sql_update = "UPDATE av_users SET hash='' WHERE id='$id'";
+   if($pdo->exec($sql_update)){
+    setcookie("id", "", time() - 3600);
+    setcookie("hash", "", time() - 3600);
+    return true;}
+    else{
+       print 'Exception';
+   }
+   return false;
+}
 //Авторизация
 function login($pdo, $mail, $password){
     $mail = $pdo->quote($mail);
@@ -138,7 +148,7 @@ function register($pdo, $email, $name, $password){
 //Регистрация подголосований
 function registerSubVotes($pdo, $id){
     $answer = TRUE;
-    $url = 'http://localhost:8888/anonimvoting/tallier/votingRegistration';
+    $url = 'http://localhost/anonimvoting/tallier/votingRegistration';
     $votingInfo = getVotingInfo($pdo, $id);
     $subVotes = getSubVotes($pdo, $id);
     foreach ($subVotes as $key => $value) {

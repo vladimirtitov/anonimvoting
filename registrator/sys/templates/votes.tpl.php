@@ -5,7 +5,7 @@ show_list($pdo);
 // Функция выводит список всех записей в таблице БД
 function show_list($pdo){
     $res = getVotes($pdo);
-    echo '<table border="1" cellpadding="2" cellspacing="0">';
+    echo '<table class="demo-table">';
     echo '<tr><th>ID</th><th>Название</th><th>Описание</th><th>Дата начала</th><th>Дата окончания</th><th>Действия</th></tr>';
     foreach ($res as $key => $value) {
         echo '<tr>';

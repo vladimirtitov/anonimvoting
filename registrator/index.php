@@ -13,6 +13,7 @@
     $isAdmin = isAdmin($pdo, $cookie_id, $cookie_hash);
 switch($page){
             case 'login':
+                if($this_id!=0) header("location: $path/account");
                 $tpl = 'login';
                 $title = 'Авторизация';
                 if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -29,9 +30,15 @@ switch($page){
                 }
                 break;
             case 'logout':
-                echo '<h2>Тут мы разлогиваемся</h2>';
+                if($this_id==0) header("location: $path/login");
+                if(logout($pdo, $this_id)){
+                    header("location: $path/login");
+                }else{
+                    print 'Произашла ошибка';
+                }
                 break;
             case 'register':
+                if($this_id!=0) header("location: $path/account");
                 $title = 'Регистрация';
                 $tpl = 'register';
                 if($_SERVER['REQUEST_METHOD'] == 'POST'){
