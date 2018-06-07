@@ -323,7 +323,7 @@ function getGroup($pdo, $id){
 function updateGroup($pdo, $id, $name){
     $name = $pdo->quote($name);
     $sql = 'UPDATE av_groups SET name ='.$name.' WHERE id='.$id;
-    print $sql;
+    //print $sql;
     return $pdo->exec($sql);
 }
 

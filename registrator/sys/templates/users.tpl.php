@@ -3,7 +3,7 @@ show_list($pdo);
 // Функция выводит список всех записей в таблице БД
 function show_list($pdo){
     $res = getUsers($pdo);
-    echo '<h2>Пользователи</h2>';
+    echo '<br/><h2 class="caption-section">Пользователи</h2>';
     echo '<table class="demo-table">';
     echo '<tr><th>ID</th><th>Имя Фамилия</th><th>E-mail</th><th>Статус учетной записи</th><th>Группа</th><th>Действия</th></tr>';
     foreach ($res as $key => $value) {

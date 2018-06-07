@@ -1,5 +1,5 @@
-<h1 class="cent">Голосования</h1>
-<p><a href="../admin/addvote">Создать новое голосование</a></p>
+<br/><h1 class="caption-section">Голосования</h1>
+<p><a href="../admin/addvote">Создать новое голосование</a></p><br/>
 <?php
 show_list($pdo);
 // Функция выводит список всех записей в таблице БД
@@ -17,5 +17,5 @@ function show_list($pdo){
         echo '<td><a href="/anonimvoting/registrator/admin/voting/'.$key.'">Подробнее</a></td>';
         echo '</tr>';
     }
-    echo '</table>';
+    echo '</table><br/>';
 }?>

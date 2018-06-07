@@ -1,4 +1,4 @@
-<h1 class="cent">Редактирование пользователя</h1>
+<br/><h1 class="caption-section">Редактирование пользователя</h1>
 <?php
 function isStatus($status, $currentStatus){
     if($status==$currentStatus) return 'selected';
@@ -11,12 +11,12 @@ if($userInfo == array())
 else{
 $groups = getGroups($pdo);
 ?>
-<div class="row cent">
-    <div class="col-md-offset-4 col-md-4">
-        <form class="cent" action="" method="post">
+    <div class="edituser-page">
+        <div class="form">
+        <form class="edituser-form" action="" method="post">
             <p>ID: <?=$userInfo['id']?></p>
             <p>Имя Фамилия: <?=$userInfo['name']?></p>
-            <p>Email: <?=$userInfo['email']?></p>
+            <p>Email: <?=$userInfo['email']?></p><br/>
             <p>Группа:
             <select name="selectGroups" size="1">
                 <?php
@@ -28,8 +28,8 @@ $groups = getGroups($pdo);
                     }
                 ?>
                 </select>
-            </p>
-            <p> Статус учетной записи
+            </p><br/>
+            <p> Статус учетной записи:
             <select name="selectStatus" size="1">
                 <?php
                     $status = $userInfo['status'];
@@ -39,8 +39,9 @@ $groups = getGroups($pdo);
                 ?>
             </select>
             </p>
-            <p><input class="btn btn-primary" name="add_group_submit" type="submit" value="Сохранить"/></p><br />
+            <br/>
+            <button name="add_group_submit" type="submit">Сохранить</button>
         </form>
+        </div>
     </div>
-</div>
 <?php }?>

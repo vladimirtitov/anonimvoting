@@ -24,7 +24,9 @@ switch($page){
                         if(login($pdo, $mail, $password)){
                             header("location: $path/account");
                         }else{
-                            print 'Неверный логин или пароль';
+                            echo '<script language="javascript">';
+                            echo 'alert("Неверный логин или пароль")';
+                            echo '</script>';
                         }
                     }
                 }
@@ -34,7 +36,9 @@ switch($page){
                 if(logout($pdo, $this_id)){
                     header("location: $path/login");
                 }else{
-                    print 'Произашла ошибка';
+                    echo '<script language="javascript">';
+                    echo 'alert("ПРоизашла ошибка")';
+                    echo '</script>';
                 }
                 break;
             case 'register':
@@ -48,12 +52,16 @@ switch($page){
                     $password_double = clearStr($_POST['password_double']);
                     if(!empty($mail) && !empty($password) && !empty($password_double)){
                         if($password != $password_double){
-                            print 'Пароли не совпадают';
+                            echo '<script language="javascript">';
+                            echo 'alert("Пароли не совпадают")';
+                            echo '</script>';
                         }else{
                             if(register($pdo, $mail, $name,$password)){
                                 header("location: $path/login");
                             }else{
-                                print 'Регистрация не получилась :(';
+                                echo '<script language="javascript">';
+                                echo 'alert("Регистрация не удалась, повторите попытку позже")';
+                                echo '</script>';
                             }
                         }
                     }
@@ -115,11 +123,15 @@ switch($page){
                                 if(addGroup($pdo, $name)){
                                     header("location: $path/admin/groups");
                                 }else{
-                                    print 'Группа с таким именем уже есть';
+                                    echo '<script language="javascript">';
+                                    echo 'alert("Группа с таким именем уже существует")';
+                                    echo '</script>';
                                 }
                             }
                             else{
-                                print 'Название группы не менее 3 символов';
+                                echo '<script language="javascript">';
+                                echo 'alert("Название группы не менее 3 символов")';
+                                echo '</script>';
                             }
                         }
                         break;
@@ -133,7 +145,9 @@ switch($page){
                                 if(updateGroup($pdo, $id, $name)){
                                     header("location: $path/admin/groups");
                                 }else{
-                                    print 'Изменений нет';
+                                    echo '<script language="javascript">';
+                                    echo 'alert("Изменений нет")';
+                                    echo '</script>';
                                 }
                             }
                             else{
@@ -156,7 +170,9 @@ switch($page){
                             if(updateUser($pdo, $id, $group_id,$status)){
                                 header("location: $path/admin/users");
                             }else{
-                                print 'Изменений нет';
+                                echo '<script language="javascript">';
+                                echo 'alert("Изменений нет")';
+                                echo '</script>';
                             }
                         }
                         break;

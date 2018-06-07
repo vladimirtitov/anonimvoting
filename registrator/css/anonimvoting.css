@@ -74,7 +74,22 @@ header nav a:last-child {
 }
 .login-page {
     width: 360px;
-    padding: 8% 0 0;
+    padding: 5% 0 0;
+    margin: auto;
+}
+.createvote-page {
+    width: 600px;
+    padding: 5% 0 0;
+    margin: auto;
+}
+.edituser-page {
+    width: 560px;
+    padding: 2% 0 0;
+    margin: auto;
+}
+.editgroup-page {
+    width: 560px;
+    padding: 2% 0 0;
     margin: auto;
 }
 .form {
@@ -221,4 +236,91 @@ p
 footer p
 {
     color: #ffffff;
+}
+
+.form-votes {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 600px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form-votes input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.form-votes button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #2c3e50;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+}
+.form-votes button:hover,.form button:active,.form button:focus {
+    background: #2c3e50;
+}
+.form-votes .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+}
+.form-votes .message a {
+    color: #2c3e50;
+    text-decoration: none;
+}
+.form-votes h3 {
+    color: #2c3e50;
+    text-decoration: none;
+}
+select::-ms-expand {
+    display: none; /* hide the default arrow in ie10 and ie11 */
+}
+/* target Internet Explorer 9 to undo the custom arrow */
+@media screen and (min-width:0\0) {
+    select {
+        background-image:none\9;
+        padding: 5px\9;
+    }
+}
+select {
+    width: 100%;
+    padding: 5px 35px 5px 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    height: 34px;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+
+/* CAUTION: IE hackery ahead */
+
+
+select::-ms-expand {
+    display: none; /* remove default arrow in IE 10 and 11 */
+}
+
+/* target Internet Explorer 9 to undo the custom arrow */
+@media screen and (min-width:0\0) {
+    select {
+        background:none\9;
+        padding: 5px\9;
+    }
 }

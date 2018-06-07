@@ -1,4 +1,4 @@
-<h1 class="caption-section">Голосование</h1>
+<br/><h1 class="caption-section">Голосование</h1>
 <?php
 $id = $request[5];
 $votingInfo = getVotingInfo($pdo, $id);
@@ -15,9 +15,9 @@ else{
     echo '<br/><h3 class="caption-section">Варианты голосования</h3>';
     $candidates = json_decode($votingInfo['bulletin'],true);
     foreach ($candidates as $key => $value){
-        echo ($key+1).'. '.$value['name'].'<br/>';
+        echo '<p>'.($key+1).'. '.$value['name'].'</p>';
     }
-    echo '<h3>Подголосования</h3> ';
+    echo '<br/><h3 class="caption-section">Подголосования</h3> ';
     echo '<table table class="demo-table">';
     echo '<tr><th>ID</th><th>Название группы</th><th>ID Группы</th><th>Максимальное количество голосов</th><th>ID Счетчика</th><th>Действия</th></tr>';
     foreach ($subVotes as $key => $value) {
@@ -36,6 +36,6 @@ else{
         }
         echo '</tr>';
     }
-    echo '</table>';
+    echo '</table><br/>';
 }
 ?>
