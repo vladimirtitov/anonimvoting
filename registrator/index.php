@@ -37,7 +37,7 @@ switch($page){
                     header("location: $path/login");
                 }else{
                     echo '<script language="javascript">';
-                    echo 'alert("ПРоизашла ошибка")';
+                    echo 'alert("Произашла ошибка")';
                     echo '</script>';
                 }
                 break;
@@ -76,6 +76,18 @@ switch($page){
                 if($this_id == 0)  header("location: $path/login");
                 $tpl = 'votinguser';
                 $title = 'Голосование';
+                break;
+            case 'registrationInVoting':
+                if($this_id == 0)  header("location: $path/login");
+                $tpl = 'registrationinvoting';
+                $title = 'Регистрация в голосовании';
+                $id = $request[5];
+                break;
+            case 'vote':
+                if($this_id == 0)  header("location: $path/login");
+                $tpl = 'vote';
+                $title = 'Кабинка голосования';
+                $id = $request[5];
                 break;
             case 'admin':
                 if($isAdmin==0) header("location: $path/account");

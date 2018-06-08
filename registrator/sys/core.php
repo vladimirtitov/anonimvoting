@@ -300,6 +300,17 @@ function getSubVotes($pdo, $id){
         return $stmt->fetchAll(PDO::FETCH_UNIQUE);
     }
 }
+
+//Получение конкретного подголосования
+function getSubVoting($pdo, $id){
+    $sql = 'SELECT * FROM av_relations_vote_group, av_votes WHERE av_relations_vote_group.id ='.$id.' AND av_relations_vote_group.vote_id = av_votes.id';
+    print $sql;
+    if(!$stmt = $pdo->query($sql)){
+        return array();
+    } else {
+        return $stmt->fetch(PDO::FETCH_UNIQUE);
+    }
+}
 //Получение групп
 function getGroups($pdo){
     $sql = 'SELECT id, name FROM av_groups ORDER BY id';

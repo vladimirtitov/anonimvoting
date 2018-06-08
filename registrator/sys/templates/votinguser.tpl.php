@@ -14,7 +14,7 @@ else{
     $dateStart = $votingInfo["date_start"];
     $dateEnd = $votingInfo["date_end"];
     if(strtotime($dateStart)>strtotime(date("Y-m-d H:i:s"))){
-        echo '<p>Статус: Идет авторизация пользователей <a href="/anonimvoting/registrator/votingAuthorization/'.$id.'">Авторизоваться в голосовании</a></p>';
+        echo '<p>Статус: Идет авторизация пользователей <a href="/anonimvoting/registrator/registrationInVoting/'.$id.'">Авторизоваться в голосовании</a></p>';
         echo '<br/><h3 class="caption-section">Варианты голосования</h3>';
         $candidates = json_decode($votingInfo['bulletin'],true);
         foreach ($candidates as $key => $value){

@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+    <title>JavaScript RSA Encryption</title>
+    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+    <script src="/anonimvoting/jsencrypt.min.js"></script>
+    <script src="/anonimvoting/sha256.min.js"></script>
+    <script src="/anonimvoting/BigInteger.min.js"></script>
+</head>
+<body>
+<p>Key: <textarea style="width: 500px; height: 100px;" id="pub">-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlOJu6TyygqxfWT7eLtGDwajtN
+FOb9I5XRb6khyfD1Yt3YiCgQWMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76
+xFxdU6jE0NQ+Z+zEdhUTooNRaY5nZiu5PgDB0ED/ZKBUSLKL7eibMxZtMlUDHjm4
+gwQco1KRMDSmXSMkDwIDAQAB
+-----END PUBLIC KEY-----</textarea></p>
+<script>
+
+    function blind(hash, vote_pub_key){
+        var r = bigInt(48);
+        var n = bigInt("10365030165388931131183364239353362814970886917516326560428986795769887606285161547246645286872832159867228743448993409678043325930660619444174941938811843");
+        var e = bigInt("65537");
+        var message = bigInt(hash,16);
+        var cipher = (message.multiply(r.pow(e))).mod(n);
+        document.write(cipher.toString());
+    }
+    function removeBlind(hash, vote_pub_key){
+        var message =  bigInt("4105026828385955976746056181874920843851692005306466787239340722177069001698771705173369059510468758391578707230876099482135141093243081823325222128622492");
+        document.write(message);
+        document.write("</br>");
+        var n = bigInt("10365030165388931131183364239353362814970886917516326560428986795769887606285161547246645286872832159867228743448993409678043325930660619444174941938811843");
+        var rReverse = bigInt(48).modInv(n);
+        var cipher = (message.multiply(rReverse)).mod(n);
+        document.write(cipher.toString());
+    }
+    // var pubVoterKey = $('#pub').val();
+    // var hash = sha256.create();
+    // hash.update(pubVoterKey);
+    // document.write(hash.hex());
+    // document.write("</br>");
+    // blind(hash.hex(),"sdasda");
+    // document.write("</br>");
+    // removeBlind("sdasd","sdasda");
+    var pub = $('#pub').val();
+    var crypt = new JSEncrypt();
+    crypt.setPublicKey(pub);
+    document.write(crypt);
+</script>
+</body>
+</html>
